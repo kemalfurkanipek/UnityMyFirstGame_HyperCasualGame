@@ -10,7 +10,7 @@ public class MoveDown : MonoBehaviour
     void Start()
     {
         playerC=FindObjectOfType<PlayerController>();
-        InvokeRepeating("speedPlus", 1, 3);
+        InvokeRepeating("speedPlus", 1, 3); //Controls the runtime of functions.
 
     }
 
@@ -19,8 +19,8 @@ public class MoveDown : MonoBehaviour
     {
         
 
-        transform.Translate(Vector2.down * Time.deltaTime * cloudSpeed);
-        
+        transform.Translate(Vector2.down * Time.deltaTime * cloudSpeed);  //We provide the movement of produced enemys and life and bonusScore.
+
 
 
     }
@@ -29,7 +29,7 @@ public class MoveDown : MonoBehaviour
     {
         if (playerC.score  >3)
         {
-            cloudSpeed++;
+            cloudSpeed++;                //we increase the speed of objects that fit the situation
         }
     }
 }

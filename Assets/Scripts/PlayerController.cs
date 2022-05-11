@@ -6,130 +6,109 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public int score = 0;
+    //The required variables are here.
+    public int score = 0;         
     public float playerSpeed;
     public bool rightPs = true;
-    public Text textScore,lifeScore;
-    public int playerLife=3;
+    public Text textScore, lifeScore; //ScoreText and LifeText                                     
+    public int playerLife = 3;
     public AudioSource playerAudio;
-    public AudioClip playerAudioClip,playerAudioClip1;
-    // Start is called before the first frame update
-    void Start()
-    {
+    public AudioClip playerAudioClip, playerAudioClip1;     // CollidSound and EnemyCollidSound
 
-        
-    }
 
-    // Update is called once per frame
+    
     void Update()
     {
         changeAt();
         playerMove();
 
-        textScore.text=score.ToString();
-        lifeScore.text="Life = "+playerLife.ToString();
-        playerAudio=GetComponent<AudioSource>();
-
-        //if (transform.position.x > 2.71f)
-        //{
-        //    transform.position = new Vector2(2.71f, transform.position.y);
-        //}
-        //if (transform.position.x < -1.75f)
-        //{
-        //    transform.position = new Vector2(-1.75f, transform.position.y);
-        //}
-       
+        textScore.text = score.ToString();
+        lifeScore.text = "Life = " + playerLife.ToString();
         
+        playerAudio = GetComponent<AudioSource>();
+        
+
+
+
     }
 
     void playerMove()
     {
         if (rightPs)
         {
-            transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
+            transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);   // allows the player to move in the right direction
         }
         if (!rightPs)
         {
-            transform.Translate(Vector2.left * playerSpeed * Time.deltaTime);
+            transform.Translate(Vector2.left * playerSpeed * Time.deltaTime);    // allows the player to move in the left direction
         }
-        
+
     }
 
-    void changeAt()
+    void changeAt()   //changes the direction of the player
     {
-        if(Input.GetMouseButtonDown(0) && rightPs )
+        if (Input.GetMouseButtonDown(0) && rightPs)     
         {
             rightPs = false;
         }
-        else if(Input.GetMouseButtonDown(0) && !rightPs )
+        else if (Input.GetMouseButtonDown(0) && !rightPs)
         {
             rightPs = true;
         }
-        
+
     }
-    
-    //void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "left_right")
-    //    {
-    //        rightPs = true;
-    //    }
-    //    else if(collision.gameObject.tag == "right_left")
-    //    {
-    //        rightPs=false;
-    //    }
 
-    //}
 
-    
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "foodScore")
+        if (collision.gameObject.tag == "foodScore")    //controls collision with score
         {
             Destroy(collision.gameObject);
             score++;
-            
+
         }
-        if (collision.gameObject.tag == "bonusScore")
+        if (collision.gameObject.tag == "bonusScore")   //controls collision with bonusPoint
         {
             Destroy(collision.gameObject);
-            score+=2;
+            score += 2;
         }
 
-        if (collision.gameObject.tag == "deadScore")
+        if (collision.gameObject.tag == "deadScore")   //controls collision with enemy
         {
-            Destroy (collision.gameObject);
+            Destroy(collision.gameObject);
             playerLife--;
             playerAudio.PlayOneShot(playerAudioClip1);
-            if(playerLife == 0)
+            if (playerLife == 0)
             {
-               
-                SceneManager.LoadScene(1);
-                
+
+                SceneManager.LoadScene(1);    //game over when life runs out
+
             }
 
-            
-            
-
-           
-            
         }
 
-        if (collision.gameObject.tag == "left_right")
+        if (collision.gameObject.tag == "lifeBonus")  //controls collision with bonusLife
+        {
+            playerLife++;
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.tag == "left_right")    //controls collision with rightBox
         {
             rightPs = true;
             playerAudio.PlayOneShot(playerAudioClip);
         }
-        else if (collision.gameObject.tag == "right_left")
+        else if (collision.gameObject.tag == "right_left")  //controls collision with leftBox
         {
             rightPs = false;
             playerAudio.PlayOneShot(playerAudioClip);
         }
     }
 
-    
-    
+
+
 
 
 }

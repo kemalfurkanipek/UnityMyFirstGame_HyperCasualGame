@@ -10,6 +10,7 @@ TagManager:
   - deadScore
   - player
   - bonusScore
+  - lifeBonus
   layers:
   - Default
   - TransparentFX
